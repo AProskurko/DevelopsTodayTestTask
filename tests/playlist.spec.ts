@@ -18,8 +18,8 @@ test.describe("Testing playlist app", () => {
   test("Test 1: Search Functionality", async ({ page }) => {
     for (const track of tracksList) {
       await test.step(`Checking track "${track}"`, async () => {
-        await page.getByLabel("Searrrrrrrrrrrrrrrch").fill("");
-        await page.getByLabel("Searrrrrrrrrrrrrrrch").fill(track);
+        await page.getByLabel("Search").fill("");
+        await page.getByLabel("Search").fill(track);
 
         await expect(page.getByText(track)).toBeVisible();
 
