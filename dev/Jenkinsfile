@@ -1,15 +1,11 @@
 pipeline {
-          agent any
-          stages {
-                    stage("build") {
-                              steps {
-                                      echo 'building the test...'  
-                              }
-                    }
-                    stage("test") {
-                              steps {
-                                     echo 'testing the test...'    
-                              }
-                    }
-          }          
+   agent { docker { image 'mcr.microsoft.com/playwright:v1.49.1-noble' } }
+   stages {
+      stage('e2e-tests') {
+         steps {
+            sh 'npm ci'
+            sh 'npx playwright test'
+         }
+      }
+   }
 }
