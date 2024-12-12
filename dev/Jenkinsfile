@@ -1,73 +1,8 @@
 pipeline {
-    agent any // or specific agent label if needed
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm // Checks out the code from your SCM (Git)
-            }
-        }
-
-        stage('Setup Node.js') {
-            steps {
-                nodejs(nodeJSInstallationName: 'your_node_installation_name') { // Use a pre-configured Node.js installation in Jenkins
-                    // If you don't have a pre-configured installation, you can use nvm:
-                    // sh 'nvm install lts/*'
-                    // sh 'nvm use lts/*'
-                    // Or install directly:
-                    // sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash' // Example nvm install
-                    // sh 'export NVM_DIR="$HOME/.nvm"'
-                    // sh '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'  # This loads nvm
-                    // sh '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"'  # This loads nvm bash_completion
-                    // sh 'nvm install lts/*'
-                    // sh 'nvm use lts/*'
-                }
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm ci'
-            }
-        }
-
-        stage('Install Playwright Browsers') {
-            steps {
-                sh 'npx playwright install --with-deps'
-            }
-        }
-
-        stage('Run Playwright Tests') {
-            steps {
-                sh 'npx playwright test'
-            }
-            post {
-              always {
-                  // Archive test results (optional, but highly recommended).
-                  archiveArtifacts artifacts: 'test-results/**/*', allowEmptyArchive: true
-              }
-              failure {
-                  // Send notification on failure (optional)
-                  echo "Tests Failed!"
-              }
-            }
-        }
-
-        stage('Publish Test Report') {
-            steps {
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Test Report'])
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            cleanWs() // Cleans the workspace after the build
-        }
-    }
+          agent any
+          stages {
+                    stage("build") {
+                              steps {
+                              }
+                    }
 }
