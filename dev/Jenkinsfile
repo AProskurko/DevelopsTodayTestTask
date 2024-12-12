@@ -1,14 +1,23 @@
 pipeline {
           agent any
           stages {
-                    stage("build") {
+                    stage('Setup Node.js') {
+                        steps {
+                            nodejs(nodeJSInstallationName: 'Node.js 18') { // Note the exact name here
+                                sh 'node -v' // Verify the correct version is used
+                                sh 'npm -v'
+                            }
+                        }
+                    }
+                    stage("Install Dependencies") {
                               steps {
-                                      echo 'building the test...'  
+                                      echo 'Installing Dependencies...'
+                                        
                               }
                     }
-                    stage("test") {
+                    stage("Test") {
                               steps {
-                                     echo 'testing the test...'    
+                                     echo 'testing...'    
                               }
                     }
           }          
